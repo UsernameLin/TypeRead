@@ -1,0 +1,33 @@
+#introduction {
+    text-align: center;
+    color:antiquewhite;
+    border: .1vw;
+    border-style: solid;
+    border-radius: 5vh;
+    border-color: antiquewhite;
+}
+#body{/* the div of the body*/
+    margin-top: 1vh;
+     border: .1vw;
+    border-style: solid;
+    border-radius: 5vh;
+    border-color: antiquewhite;
+}
+body{/* the actual html body*/
+
+background-color:#323437;
+}
+
+.button{/*div class of button to center align*/
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button{
+    color: #6d7077;
+    background-color:#292b2e;
+    border-radius: 25.7%;
+    padding: .5%;
+    font-size: 100%;
+}
