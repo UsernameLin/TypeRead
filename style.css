@@ -1,3 +1,12 @@
+div{
+    color:antiquewhite;
+}
+h1{
+    margin: .5%;
+}
+p{
+    margin: .5%;
+}
 #introduction {
     text-align: center;
     color:antiquewhite;
@@ -5,29 +14,117 @@
     border-style: solid;
     border-radius: 5vh;
     border-color: antiquewhite;
+    font-size: calc(1vh + .5vw);
 }
-#body{/* the div of the body*/
+#stat-board{
     margin-top: 1vh;
-     border: .1vw;
+    /* border: .1vw;
     border-style: solid;
     border-radius: 5vh;
-    border-color: antiquewhite;
+    border-color: antiquewhite; */
 }
 body{/* the actual html body*/
 
 background-color:#323437;
 }
 
-.button{/*div class of button to center align*/
-    display: flex;
-  justify-content: center;
-  align-items: center;
+button{
+    background-color:#323437;
+    border: none;
+    color: antiquewhite;
+    overflow: hidden;
 }
 
-button{
-    color: #6d7077;
-    background-color:#292b2e;
-    border-radius: 25.7%;
-    padding: .5%;
-    font-size: 100%;
+#stopwatch {
+}
+
+#stat-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1vw, 1fr));
+    align-content: right;
+    border-radius: 999px;
+    border-color: antiquewhite;
+    border-style: solid;
+    overflow:hidden;
+}
+.stat-card{
+    padding: 1%;
+    text-align: center;
+    border-right:.1vw solid antiquewhite;
+    font-size: calc(.8vw + .75vh + 2px);
+}
+#file-upload{
+    /* position: absolute;
+    bottom: 75%;
+    left: 17%; */
+
+}
+#uploadbtn{
+}
+.text-container{
+    margin-top: 1vh;
+    border-radius: 1vw;
+    border: .2vw solid antiquewhite ;
+    height: 73.82vh;
+
+     display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.text-content{
+    text-align: center;
+}
+.control-panel{
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1vw, 1fr));
+    border-top: .2vw solid antiquewhite;
+    overflow:hidden;
+}
+.control-box{
+    padding: 1%;
+    text-align: center;
+    border-right:.1vw solid antiquewhite;
+    font-size:  calc(.8vw + .75vh + 2px);
+    cursor: pointer;
+
+}
+.control-box:hover{
+    background-color: #45484c;
+}
+.control-box-last:hover{
+    background-color: #45484c;
+}
+.control-box:active .control-label{
+    transform: scale(.9);
+}
+.control-box-last:active .control-label{
+    transform: scale(.9);
+}
+.control-box-last {
+    padding: 1%;
+    text-align: center;
+    font-size: calc(.8vw + .75vh + 2px);
+    cursor: pointer;
+}
+.progress-container{
+}
+
+.progress-bar {
+    margin-bottom: 0;
+    margin-top: 1%;
+    width: 100%;
+    height: 2vh;
+    background: #2f343f;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid antiquewhite;
+}
+
+.progress-fill {
+    width: 0%; 
+    height: 100%;
+    background: antiquewhite;
+    border-radius: inherit;
+    transition: width 0.3s ease;
 }

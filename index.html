@@ -2,28 +2,111 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <meta name= "viewport", content = "width=device-width, initial-scale = 1.0">
         <title>
             TypeRead
         </title>
 
     </head>
     <body>
+        <script src="https://kit.fontawesome.com/146314d5e8.js" crossorigin="anonymous"></script><!-- font awesome icons-->
         <div id="introduction">
             <h1 >
                 TypeRead
             </h1>
             <p>
-                Read alongside typing
+                Type and read books
             </p>
         </div>
-        <div id = "body">
-            <div class="button"> 
-                <!-- button for importing book files later on -->
-            <button>
-                thing
-            </button>
-        </div>
+        <div id = "stat-board">
+            <!-- <div id="file-upload">
+                <input type="file" id="filePicker" accept=".epub">
+                <button class="button" id="uploadBtn">Upload File</button>
+            </div> -->
+
+
+            <div id="stat-grid"> <!--stat-->
+                <div class="stat-card" id="stopwatch">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>0</span>
+                    <div class="stat-label">TIME</div>
+                </div>
+
+                <div class="stat-card" id="wpm">
+                    <i class="fas fa-gauge"></i>
+                    0
+                    <div class="stat-label">WPM</div>
+                </div>
+
+                <div class="stat-card" id="WORDS">
+                    <i class="fa-solid fa-a"></i>
+                    0
+                    <div class="stat-label">WORDS</div>
+                </div>
+
+                <div class="stat-card" id="CHARACTERS">
+                    <i class="fa-solid fa-arrow-down-a-z"></i>
+                    0
+                    <div class="stat-label">CHARACTERS</div>
+                </div>
+
+                 <div class="stat-card" id="MISTAKES">
+                    <i class="fa-solid fa-text-slash"></i>
+                    0
+                    <div class="stat-label">MISTAKES</div>
+                </div>
+
+                 <div class="stat-card" id="PEAK-WPM">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    0
+                    <div class="stat-label">PEAK WPM</div>
+                </div>
+            </div>
+
+
+        
         </div> 
+
+        <div class="text-container">
+            <div class="text-content">
+            THIS WILL BE THE MOST DIFFICULT PART                
+            </div>
+            <div class="control-panel">
+                <button class="control-box" id="start">
+                    <i class="fa-solid fa-play" id="start_icon"></i>
+                    <div class="control-label">start</div>
+                </button>
+                <!-- <button class="control-box" id="stop">
+                    <i class="fa-solid fa-pause"></i>
+                    <div class="control-label">stop</div>
+                </button> -->
+                <button class="control-box" id="save">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <div class="control-label">save</div>
+                </button>
+                <button class="control-box-last" id="upload-file">
+                    <i class="fa-solid fa-upload"></i>
+                    <div class="control-label">upload</div>
+                </button>
+            </div>
+        </div>
+        <div class="progress-container">
+             <div class="progress-text">
+
+                </div>
+
+            <div class="progress-bar">
+
+                <div class="progress-fill" id="progress-fill">
+                    
+                </div>
+
+                
+            </div>
+           
+        </div>
+        <script src = "java.js"></script> <!-- own script import-->
     </body>
 
 </html>
