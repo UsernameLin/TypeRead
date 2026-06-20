@@ -1,8 +1,10 @@
 let timer = null;
 let word_count = 0;
+let total_word_count = 0;
+let total_char_count = 0;
+let character_count = 0;
 let wpm = 0;
 let peakwpm = 0;
-let character_count= 0;
 let progress = 0;
 let mistakes = 0;
 let time_sec = 0;
@@ -32,12 +34,14 @@ const progress_elm = document.getElementById("progress-fill");
 function start(){
     const icon = document.getElementById("start_icon");
     if(time_on){
+        time_on = false;
         stop_timer();
         icon.classList.remove("fa-pause");
         icon.classList.add("fa-play");
         startbtn.querySelector("div").textContent = "start";
     }
     else{
+        time_on = true;
         time_start();
         icon.classList.remove("fa-play");
         icon.classList.add("fa-pause");
@@ -48,10 +52,15 @@ function start(){
 }
 
 //start and resume tracking time
+//time is main loop for calculate everything
 function time_start(){
     timer = setInterval(() => {
         time_sec++;
         time_total++;
+
+        wpm = (character_count /5) / (60/time_total);
+        if(peakwpm < wpm){peakwpm = wpm;}
+
         //convert sec to min
         if(time_sec >= 60){time_sec = 0; time_reached_min = true; time_min++}
 
@@ -69,7 +78,6 @@ function time_start(){
         }
         else{time_elm.querySelector("span").textContent = time_sec;}
         }, 1000);
-    time_on = true;
     
 }
 //stops the time
@@ -80,7 +88,6 @@ function stop_timer(){
         time_elm.querySelector("span").textContent += " (PAUSED)";
     }
     clearInterval(timer);
-    time_on = false;
 }
 
 function update_progress_bar(){
