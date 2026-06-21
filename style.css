@@ -80,7 +80,7 @@ button{
     text-align: left; 
 }
 #hidden-input{
-    opacity: 0%;
+    /* opacity: 0%; */
     pointer-events: none;
     position: absolute;
     background-color: antiquewhite;
@@ -147,7 +147,7 @@ button{
 .letter {
     color: #646669; 
     transition: color 0.1s ease;
-    border-left: 2px solid transparent;
+    border-left: none;
     cursor: default;
     user-select: none;
     -webkit-user-select: none;
@@ -159,6 +159,8 @@ button{
     cursor: default;
     user-select: none;
     -webkit-user-select: none;
+    border-left: none;
+
 }
 
 .letter.incorrect {
@@ -166,6 +168,7 @@ button{
     cursor: default;
     user-select: none;
     -webkit-user-select: none;
+    border-left: none;
 }
 
 .letter.current {

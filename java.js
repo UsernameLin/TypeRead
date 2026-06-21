@@ -15,7 +15,7 @@ let time_reached_hour = false;
 let time_total = 0;
 let time_on = false;
 let cur_char_index = 0;
-let rawText = "The quick brown fox jumps over the lazy dog. ";
+let rawText = "The quick brown fox jumps over the lazy dog.";
 let textInit = false;
 
 
@@ -39,14 +39,15 @@ const text_elm = document.getElementById("words")
 
 function update_stats()
 {
-    wpm = (character_count /5) / (60/time_total);
+    wpm = Math.round((character_count /5) / (time_total/60));
 
     if(peakwpm < wpm)
     {
+        console.log(peakwpm);
         peakwpm = wpm;
-        peakwpm.textContent = peakwpm;
+        PEAKWPM_elm.querySelector("span").textContent = peakwpm;
     }
-    
+
     wpm_elm.querySelector("span").textContent = wpm;
     mistake_elm.querySelector("span").textContent = mistakes;
     word_elm.querySelector("span").textContent = word_count;
@@ -60,8 +61,6 @@ function time_start(){
     timer = setInterval(() => {
         time_sec++;
         time_total++;
-
-        update_stats();
        
         //convert sec to min
         if(time_sec >= 60){time_sec = 0; time_reached_min = true; time_min++}
@@ -92,10 +91,6 @@ function stop_timer(){
     clearInterval(timer);
 }
 
-function update_progress_bar(){
-    progress_elm.style.width = '';
-};
-
 function initializeText(text) {
     text_elm.innerHTML = "";
     const words = text.split(" ");
@@ -123,7 +118,7 @@ function translate_raw_text(rawText){
             word_div.appendChild(letter_span);
         }
 
-        if(word_index < total_word_count -1)
+        if(i < total_word_count -1)
         {
             let space_span = document.createElement("span");
             space_span.className = "letter";
@@ -134,14 +129,90 @@ function translate_raw_text(rawText){
         text_elm.appendChild(word_div);
     }
 }
-function update_display(){}
-function update_progress(){}
+function update_display(input_value)
+{
+
+    const text = text_elm.querySelectorAll("span");
+    const cur_index =  input_value.length;
+    //backspace
+    if(cur_index <= cur_char_index)
+    {
+        //if delete whole word
+        if(cur_char_index - cur_index > 1)
+        {
+            for(let i = cur_index + 1; i < cur_char_index; ++i)
+            {
+            text[i].classList.remove("incorrect", "correct", "current");
+            character_count--;
+            }
+        }
+        text[cur_char_index].classList.remove("incorrect", "correct", "current");
+        text[cur_index].classList.remove("incorrect","correct");
+        text[cur_index].classList.add("current");
+        cur_char_index = cur_index;
+        character_count--;
+    }
+
+    //if new letter was typed
+    if(cur_index > cur_char_index)
+    {
+        //if go past total word
+        if(cur_index >= total_char_count)
+        {
+            input.value = input.value.slice(0, total_char_count);
+            // cur_index = total_char_count
+        }
+        else
+        {
+            const curr = text[cur_index];
+            curr.classList.add("current");
+        }
+        
+        const prev = text[cur_char_index];
+        prev.classList.remove("current");
+        if(prev.textContent == input_value[cur_char_index])
+        {
+            prev.classList.add("correct");
+        }
+        else
+        {
+            prev.classList.add("incorrect");
+            mistakes++;
+        }
+        if(input_value[cur_char_index]== " ")
+        {
+            word_count++;
+        }
+        character_count++;
+        cur_char_index = cur_index;
+    }
+}
+function update_progress()
+{
+    const progress = (character_count / total_char_count) * 100;
+    progress_elm.style.width = Math.min(progress,100) + '%';
+}
 
 
 function inputHandler(e){
     const input_value = e.target.value;
-    cur_char_index = input_value.length;
+    update_display(input_value);
+    update_stats();
+    update_progress();
+}
 
+//for clicking anywhere on the text
+function resume(){
+    const icon = document.getElementById("start_icon");
+    input.focus();
+    if(!time_on && textInit)
+    {
+        time_on = true;
+        time_start();
+        icon.classList.remove("fa-play");
+        icon.classList.add("fa-pause");
+        startbtn.querySelector("div").textContent = "stop";
+    }
 
 }
 
@@ -149,6 +220,7 @@ function start(){
     const icon = document.getElementById("start_icon");
     if(!textInit){
         initializeText(rawText); 
+        textInit = true;
     }
     input.focus();
     if(time_on){
@@ -169,4 +241,12 @@ function start(){
 
 input.addEventListener('input', inputHandler);
 startbtn.addEventListener('click', start);
+text_elm.addEventListener('click', resume);
 // stopbtn.addEventListener('click', stop_timer) removed
+input.addEventListener('keydown', function(event) {
+    if (event.metaKey) {
+        if (event.key === 'Backspace' || event.key === 'Delete') {
+            event.preventDefault(); 
+        }
+    }
+});
