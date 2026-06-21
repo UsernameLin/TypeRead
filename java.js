@@ -41,9 +41,8 @@ function update_stats()
 {
     wpm = Math.round((character_count /5) / (time_total/60));
 
-    if(peakwpm < wpm)
+    if(peakwpm < wpm && wpm != Infinity)
     {
-        console.log(peakwpm);
         peakwpm = wpm;
         PEAKWPM_elm.querySelector("span").textContent = peakwpm;
     }
