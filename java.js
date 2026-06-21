@@ -131,10 +131,9 @@ function translate_raw_text(rawText){
 }
 function update_display(input_value)
 {
-
-      
     const text = text_elm.querySelectorAll("span");
     const cur_index =  input_value.length;
+    character_count = cur_index;     
 
     if(cur_index > total_char_count){
         input.value = input.value.slice(0,total_char_count);
@@ -148,14 +147,12 @@ function update_display(input_value)
             for(let i = cur_index + 1; i < cur_char_index; ++i)
             {
             text[i].classList.remove("incorrect", "correct", "current");
-            character_count--;
             }
         }
         text[cur_char_index].classList.remove("incorrect", "correct", "current");
         text[cur_index].classList.remove("incorrect","correct");
         text[cur_index].classList.add("current");
         cur_char_index = cur_index;
-        character_count--;
     }
 
     //if new letter was typed
@@ -176,7 +173,6 @@ function update_display(input_value)
         {
             word_count++;
         }
-        character_count++;
         const curr = text[Math.min(cur_index,total_char_count)];
         curr.classList.add("current");
         cur_char_index = cur_index;
