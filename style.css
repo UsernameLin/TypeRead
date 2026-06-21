@@ -35,9 +35,6 @@ button{
     overflow: hidden;
 }
 
-#stopwatch {
-}
-
 #stat-grid{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(1vw, 1fr));
@@ -72,7 +69,21 @@ button{
     overflow: hidden;
 }
 .text-content{
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6ch;
+    padding: 2vw;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    user-select: none;
+    text-align: left; 
+}
+#hidden-input{
+    opacity: 0%;
+    pointer-events: none;
+    position: absolute;
+    background-color: antiquewhite;
 }
 .control-panel{
     margin-top: auto;
@@ -107,8 +118,6 @@ button{
     font-size: calc(.8vw + .75vh + 2px);
     cursor: pointer;
 }
-.progress-container{
-}
 
 .progress-bar {
     margin-bottom: 0;
@@ -127,4 +136,52 @@ button{
     background: antiquewhite;
     border-radius: inherit;
     transition: width 0.3s ease;
+}
+
+.word {
+    display: flex;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.letter {
+    color: #646669; 
+    transition: color 0.1s ease;
+    border-left: 2px solid transparent;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+
+}
+
+.letter.correct {
+    color: antiquewhite; 
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.letter.incorrect {
+    color: #ca4754;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.letter.current {
+    color: #646669;
+    animation: blink 1s infinite;
+    border-left: 2px solid antiquewhite;
+}
+
+@keyframes blink{
+    50%{
+
+        border-color: transparent;
+    }
+    100%
+    {
+        border-color: antiquewhite;
+
+    }
 }
