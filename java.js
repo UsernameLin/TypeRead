@@ -132,8 +132,13 @@ function translate_raw_text(rawText){
 function update_display(input_value)
 {
 
+      
     const text = text_elm.querySelectorAll("span");
     const cur_index =  input_value.length;
+
+    if(cur_index > total_char_count){
+        input.value = input.value.slice(0,total_char_count);
+    }
     //backspace
     if(cur_index <= cur_char_index)
     {
@@ -156,18 +161,6 @@ function update_display(input_value)
     //if new letter was typed
     if(cur_index > cur_char_index)
     {
-        //if go past total word
-        if(cur_index >= total_char_count)
-        {
-            input.value = input.value.slice(0, total_char_count);
-            // cur_index = total_char_count
-        }
-        else
-        {
-            const curr = text[cur_index];
-            curr.classList.add("current");
-        }
-        
         const prev = text[cur_char_index];
         prev.classList.remove("current");
         if(prev.textContent == input_value[cur_char_index])
@@ -184,6 +177,8 @@ function update_display(input_value)
             word_count++;
         }
         character_count++;
+        const curr = text[Math.min(cur_index,total_char_count)];
+        curr.classList.add("current");
         cur_char_index = cur_index;
     }
 }
