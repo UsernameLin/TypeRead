@@ -113,16 +113,18 @@ function translate_raw_text(rawText){
             letter_span.textContent = rawText[i][j];
             word_div.appendChild(letter_span);
         }
+        text_elm.appendChild(word_div);
 
         if(i < total_word_count -1)
         {
             let space_span = document.createElement("span");
             space_span.className = "letter";
+            space_span.classList.add("space");
+
             space_span.textContent = " ";
             total_char_count += 1;
-            word_div.appendChild(space_span);
+            text_elm.appendChild(space_span);
         }
-        text_elm.appendChild(word_div);
     }
 }
 function update_display(input_value)
