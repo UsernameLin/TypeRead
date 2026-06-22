@@ -243,11 +243,16 @@ function start(){
 }
 
 function split_book_into_chapters(){
-
+    book = book.split(/(^Chapter \d+.*$)/mi);
+    console.log("book split into chapters success");
+    rawText = book[curr_chap];
+    console.log("text set to ch 1 of book");
+    start();
 }
 
 function handle_file_selection(event)
 {
+    console.log("file uploaded");
     const file = event.target.files[0];
     if(!file) 
     {
@@ -264,6 +269,8 @@ function handle_file_selection(event)
 
     reader.onload = () => {
         book = reader.result;
+        console.log("book read success");
+        split_book_into_chapters();
     };
     reader.onerror = () => {
         showMessage("Error reading the file. Please try again.", "error");
@@ -288,6 +295,7 @@ input.addEventListener('keydown', function(event) {
         }
     }
 });
+uploadbtn.addEventListener('click', receive_file);
 prevbtn.addEventListener('click', );
 nextbtn.addEventListener('click', );
 savebtn.addEventListener('click', );
