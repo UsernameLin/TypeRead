@@ -50,14 +50,7 @@ button{
     border-right:.1vw solid antiquewhite;
     font-size: calc(.8vw + .75vh + 2px);
 }
-#file-upload{
-    /* position: absolute;
-    bottom: 75%;
-    left: 17%; */
 
-}
-#uploadbtn{
-}
 .text-container{
     margin-top: 1vh;
     border-radius: 1vw;

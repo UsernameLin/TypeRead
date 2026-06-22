@@ -237,6 +237,11 @@ function start(){
     }
 }
 
+function receive_file()
+{
+}
+
+
 input.addEventListener('input', inputHandler);
 startbtn.addEventListener('click', start);
 text_elm.addEventListener('click', resume);
@@ -248,3 +253,5 @@ input.addEventListener('keydown', function(event) {
         }
     }
 });
+
+uploadbtn.addEventListener('click', receive_file);
