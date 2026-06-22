@@ -1,3 +1,4 @@
+
 let timer = null;
 let word_count = 0;
 let total_word_count = 0;
@@ -31,9 +32,10 @@ const word_elm = document.getElementById("WORDS");
 const char_elm = document.getElementById("CHARACTERS");
 const mistake_elm = document.getElementById("MISTAKES");
 const PEAKWPM_elm = document.getElementById("PEAK-WPM");
-const progress_elm = document.getElementById("progress-fill");
-const input = document.getElementById("hidden-input");
-const text_elm = document.getElementById("words")
+const progress_elm = document.getElementById("progress-fill");//progress bar at bottm of screen
+const input = document.getElementById("hidden-input");//the hidden user input 
+const text_elm = document.getElementById("words"); //text content
+const file_elm = document.getElementById("hidden-file-upload"); // hidden file input html
 
 
 function update_stats()
@@ -236,9 +238,36 @@ function start(){
         startbtn.querySelector("div").textContent = "stop";
     }
 }
+function handle_file_selection(event)
+{
+    const file = event.target.files[0];
+    if(!file) 
+    {
+        alert("No file selected. Please choose a file.", "error");
+        return;
+    }
+
+    if(!file.type.startsWith("text") && !file.type.startsWith("application/epub+zip") ) {
+        alert("Unsupported file type. Please select a text file or .epub file.", "error");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        rawText = reader.result;
+    };
+    reader.onerror = () => {
+        showMessage("Error reading the file. Please try again.", "error");
+    };
+    reader.readAsText(file);
+
+}
 
 function receive_file()
 {
+    file_elm.click();
+    file_elm.addEventListener('change', handle_file_selection);
 }
 
 

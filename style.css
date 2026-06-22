@@ -176,7 +176,14 @@ button{
     animation: blink 1s infinite;
     border-left: 2px solid antiquewhite;
 }
-
+#hidden-file-upload
+{
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position:absolute;
+    display: none;
+}
 @keyframes blink{
     50%{
 
