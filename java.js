@@ -5,7 +5,6 @@ let total_char_count = 0;
 let character_count = 0;
 let wpm = 0;
 let peakwpm = 0;
-let progress = 0;
 let mistakes = 0;
 let time_sec = 0;
 let time_min = 0;
@@ -55,7 +54,6 @@ function update_stats()
 }
 
 //start and resume tracking time
-//time is main loop for calculate everything
 function time_start(){
     timer = setInterval(() => {
         time_sec++;
@@ -101,7 +99,6 @@ function initializeText(text) {
 }
 
 function translate_raw_text(rawText){
-    word_index = 0;
     total_word_count = rawText.length;
     for(let i = 0; i< total_word_count; ++i)
         {
@@ -148,7 +145,11 @@ function update_display(input_value)
             text[i].classList.remove("incorrect", "correct", "current");
             }
         }
-        text[cur_char_index].classList.remove("incorrect", "correct", "current");
+        if(text[cur_char_index])
+        {
+            text[cur_char_index].classList.remove("incorrect", "correct", "current");
+        }
+        
         text[cur_index].classList.remove("incorrect","correct");
         text[cur_index].classList.add("current");
         cur_char_index = cur_index;
@@ -172,18 +173,22 @@ function update_display(input_value)
         {
             word_count++;
         }
-        const curr = text[Math.min(cur_index,total_char_count)];
-        curr.classList.add("current");
+        if(cur_index < total_char_count) 
+        {
+            text[cur_index].classList.add("current");
+        }
         cur_char_index = cur_index;
     }
 }
+
 function update_progress()
 {
-    const progress = (character_count / total_char_count) * 100;
+    const progress = (character_count / (total_char_count)) * 100;
+    console.log(character_count);
     progress_elm.style.width = Math.min(progress,100) + '%';
 }
 
-
+//input updates basically everything
 function inputHandler(e){
     const input_value = e.target.value;
     update_display(input_value);
