@@ -17,12 +17,15 @@ let time_on = false;
 let cur_char_index = 0;
 let rawText = "The quick brown fox jumps over the lazy dog.";
 let textInit = false;
-
+let curr_chap = 1;
+let book = null;//this will be the book as a array of chapters
 
 // buttons
 const startbtn = document.getElementById("start");
-// const stopbtn = document.getElementById("stop"); removed
 const savebtn = document.getElementById("save");
+const loadbtn = document.getElementById("load"); 
+const prevbtn = document.getElementById("prev"); 
+const nextbtn = document.getElementById("next"); 
 const uploadbtn = document.getElementById("upload-file");
 
 //elements
@@ -238,6 +241,11 @@ function start(){
         startbtn.querySelector("div").textContent = "stop";
     }
 }
+
+function split_book_into_chapters(){
+
+}
+
 function handle_file_selection(event)
 {
     const file = event.target.files[0];
@@ -255,13 +263,12 @@ function handle_file_selection(event)
     const reader = new FileReader();
 
     reader.onload = () => {
-        rawText = reader.result;
+        book = reader.result;
     };
     reader.onerror = () => {
         showMessage("Error reading the file. Please try again.", "error");
     };
     reader.readAsText(file);
-
 }
 
 function receive_file()
@@ -274,7 +281,6 @@ function receive_file()
 input.addEventListener('input', inputHandler);
 startbtn.addEventListener('click', start);
 text_elm.addEventListener('click', resume);
-// stopbtn.addEventListener('click', stop_timer) removed
 input.addEventListener('keydown', function(event) {
     if (event.metaKey) {
         if (event.key === 'Backspace' || event.key === 'Delete') {
@@ -282,5 +288,7 @@ input.addEventListener('keydown', function(event) {
         }
     }
 });
-
-uploadbtn.addEventListener('click', receive_file);
+prevbtn.addEventListener('click', );
+nextbtn.addEventListener('click', );
+savebtn.addEventListener('click', );
+loadbtn.addEventListener('click', );
