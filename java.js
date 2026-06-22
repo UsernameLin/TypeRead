@@ -192,6 +192,7 @@ function update_progress()
 
 //input updates basically everything
 function inputHandler(e){
+    resume();
     const input_value = e.target.value;
     update_display(input_value);
     update_stats();
