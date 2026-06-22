@@ -243,7 +243,7 @@ function start(){
 }
 
 function split_book_into_chapters(){
-    book = book.split(/(^Chapter \d+.*$)/mi);
+    book = book.split(/^Chapter \d+.*$/mi);
     console.log("book split into chapters success");
     rawText = book[curr_chap];
     console.log("text set to ch 1 of book");
@@ -283,7 +283,17 @@ function receive_file()
     file_elm.click();
     file_elm.addEventListener('change', handle_file_selection);
 }
-
+function next_chap()
+{
+    rawText = book[++curr_chap];
+    textInit = false;
+}
+function prev_chap()
+{
+    if(curr_chap == 0) {return;}
+    rawText = book[--curr_chap];
+    textInit = false;
+}
 
 input.addEventListener('input', inputHandler);
 startbtn.addEventListener('click', start);
@@ -296,7 +306,7 @@ input.addEventListener('keydown', function(event) {
     }
 });
 uploadbtn.addEventListener('click', receive_file);
-prevbtn.addEventListener('click', );
-nextbtn.addEventListener('click', );
+prevbtn.addEventListener('click', prev_chap);
+nextbtn.addEventListener('click', next_chap);
 savebtn.addEventListener('click', );
 loadbtn.addEventListener('click', );
