@@ -181,7 +181,7 @@ button{
     animation: blink 1s infinite;
     border-left: 2px solid antiquewhite;
 }
-#hidden-file-upload
+.hidden-file
 {
     opacity: 0;
     width: 0;
