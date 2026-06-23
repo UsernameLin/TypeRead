@@ -39,7 +39,8 @@ const progress_elm = document.getElementById("progress-fill");//progress bar at 
 const input = document.getElementById("hidden-input");//the hidden user input 
 const text_elm = document.getElementById("words"); //text content
 const file_elm = document.getElementById("hidden-file-upload"); // hidden file input html
-
+const chap_num_elm = document.getElementById("chap-num");
+const chap_name_elm = document.getElementById("chap-name");
 
 function update_stats()
 {
@@ -95,8 +96,9 @@ function stop_timer(){
 
 function initializeText(text) {
     text_elm.innerHTML = "";
-    const words = text.split(" ");
-    
+    let words = text.replace(/(\r\n|\n|\r)/gm, " ");//remove newlines
+    words = words.split(" ");
+
     translate_raw_text(words);
 
     const firstLetter = text_elm.querySelector(".letter");
@@ -247,6 +249,8 @@ function split_book_into_chapters(){
     console.log("book split into chapters success");
     rawText = book[curr_chap];
     console.log("text set to ch 1 of book");
+    chap_num_elm.textContent = "Chapter " + curr_chap;
+    // chap_name_elm.textContent = 
     start();
 }
 

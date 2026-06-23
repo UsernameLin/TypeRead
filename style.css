@@ -55,9 +55,9 @@ button{
     margin-top: 1vh;
     border-radius: 1vw;
     border: .2vw solid antiquewhite ;
-    height: 73.82vh;
+    height: 73.5vh;
 
-     display: flex;
+    display: flex;
     flex-direction: column;
     overflow: hidden;
 }
@@ -70,9 +70,14 @@ button{
     line-height: 2rem;
     user-select: none;
     text-align: left; 
+    overflow-y:scroll;
+    height: 58vh;
+}
+.text-content::-webkit-scrollbar {
+  display: none;
 }
 #hidden-input{
-    /* opacity: 0%; */
+    opacity: 0%;
     pointer-events: none;
     position: absolute;
     background-color: antiquewhite;
