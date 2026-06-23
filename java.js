@@ -19,6 +19,7 @@ let rawText = "The quick brown fox jumps over the lazy dog.";
 let textInit = false;
 let curr_chap = 1;
 let book = null;//this will be the book as a array of chapters
+let isTXT = false;
 
 // buttons
 const startbtn = document.getElementById("start");
@@ -96,7 +97,23 @@ function stop_timer(){
 
 function initializeText(text) {
     text_elm.innerHTML = "";
-    let words = text.replace(/(\r\n|\n|\r)/gm, " ");//remove newlines
+    let words = text.replace(/(\r\n+|\n+|\r+|' '+)/gm, " ").trim();//cuts all whitespace down into 1 space
+    chap_num_elm.textContent = "Chapter " + curr_chap;
+    if(isTXT)//.txt file chapter heading removal
+    {
+        let matchResult = words.match(/^.*?\*\s\*\s\*/);
+        let chap_title = "Untitled Chapter";
+        if(matchResult)// if there was a * * *
+        {   
+            chap_title = matchResult[0];
+            text.replace(/^.*?\*\s\*\s\*/, "");
+            chap_title = chap_title.replace(/\s*\*\s\*\s\*$/,"").replace(/(^.?-)/,"");
+        }
+        chap_name_elm.textContent = chap_title;
+        words = words.replace(/^.*?\*\s\*\s\*\s/, "");
+    }
+
+
     words = words.split(" ");
 
     translate_raw_text(words);
@@ -244,13 +261,11 @@ function start(){
     }
 }
 
-function split_book_into_chapters(){
+function split_book_into_chapters(){//currently a txt only method since idk how to mess with epub files so far
     book = book.split(/^Chapter \d+.*$/mi);
     console.log("book split into chapters success");
     rawText = book[curr_chap];
     console.log("text set to ch 1 of book");
-    chap_num_elm.textContent = "Chapter " + curr_chap;
-    // chap_name_elm.textContent = 
     start();
 }
 
@@ -268,18 +283,28 @@ function handle_file_selection(event)
         alert("Unsupported file type. Please select a text file or .epub file.", "error");
         return;
     }
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-        book = reader.result;
-        console.log("book read success");
-        split_book_into_chapters();
-    };
-    reader.onerror = () => {
-        showMessage("Error reading the file. Please try again.", "error");
-    };
-    reader.readAsText(file);
+    if(file.type.startsWith("text"))
+    {
+        isTXT = true;
+    }
+    if(isTXT)
+    {
+        const reader = new FileReader();
+        
+        reader.onload = () => {
+            book = reader.result;
+            console.log("book read success");
+            split_book_into_chapters();
+        };
+        reader.onerror = () => {
+            showMessage("Error reading the file. Please try again.", "error");
+        };
+        reader.readAsText(file);
+    }
+    else
+    {
+        //file handler for epub goes here
+    }
 }
 
 function receive_file()
@@ -291,12 +316,17 @@ function next_chap()
 {
     rawText = book[++curr_chap];
     textInit = false;
+    start();
+    console.log("next Chapter loaded");
 }
 function prev_chap()
 {
     if(curr_chap == 0) {return;}
     rawText = book[--curr_chap];
     textInit = false;
+    start();
+    console.log("next Chapter loaded");
+
 }
 
 input.addEventListener('input', inputHandler);
