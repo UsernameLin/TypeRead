@@ -316,6 +316,7 @@ function next_chap()
 {
     rawText = book[++curr_chap];
     textInit = false;
+    time_on =false;
     start();
     console.log("next Chapter loaded");
 }
@@ -324,9 +325,31 @@ function prev_chap()
     if(curr_chap == 0) {return;}
     rawText = book[--curr_chap];
     textInit = false;
+    time_on =false;
     start();
     console.log("next Chapter loaded");
+}
 
+function save_chapter()
+{
+    const body = 
+    "current chapter: " + curr_chap + 
+    "\nchapter title: " + chap_name_elm.textContent + 
+    "\ntime_total: " + time_total + 
+    "\npeak wpm: " + peakwpm +
+    "\nmistakes: " + mistakes +
+    "\ntextcontent: " + input.value;
+    const file = new Blob([body], {type: 'text/plain'});
+    const saveFile = window.URL.createObjectURL(file);
+
+    const link = document.createElement('a');
+    link.href = saveFile;
+    link.download = "Chapter_" + curr_chap +"_" + chap_name_elm.textContent + '.txt';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(saveFile);
 }
 
 input.addEventListener('input', inputHandler);
@@ -342,5 +365,5 @@ input.addEventListener('keydown', function(event) {
 uploadbtn.addEventListener('click', receive_file);
 prevbtn.addEventListener('click', prev_chap);
 nextbtn.addEventListener('click', next_chap);
-savebtn.addEventListener('click', );
+savebtn.addEventListener('click', save_chapter);
 loadbtn.addEventListener('click', );
