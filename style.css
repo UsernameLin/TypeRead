@@ -170,6 +170,8 @@ button{
 }
 .space{
     width: .6ch;
+    height:6.1%;
+    margin-top: .15%;
 }
 .space.letter.incorrect
 {
