@@ -21,7 +21,9 @@ let curr_chap = 1;
 let book = null;//this will be the book as a array of chapters
 let isTXT = false;
 const zip = new JSZip();
-var folder_name = null;
+let folder_name = null;
+let chapter_spine = null;//the idref of all chapters
+
 
 // buttons
 const startbtn = document.getElementById("start");
@@ -259,9 +261,21 @@ function split_book_into_chapters() {//currently a txt only method since idk how
 function extract_epub_data(file){
     zip.loadAsync(file).then(function(z) 
     {
+        let opf_file_name = "";
         zip.file("META-INF/container.xml").async("string").then(function (data) {
             folder_name = data.match(/(?<=full-path=")()\w+/);
+            opf_file_name = data.match(/(?<=full-path=")[\w/.]+/);
             console.log("chapter_folder is " + folder_name);
+            zip.file(opf_file_name).async("string").then(function(data)
+            {  
+            chapter_spine = data.match(/(?<=idref=")[^"]*\d[^"]*/g); 
+            console.log(chapter_spine);
+            chapter_spine = chapter_spine.map(idref => 
+                {
+                    //get a match
+                });
+
+            });
         });
     });
 }
