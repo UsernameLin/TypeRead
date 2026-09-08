@@ -20,6 +20,7 @@ let textInit = false;
 let curr_chap = 1;
 let book = null;//this will be the book as a array of chapters
 let isTXT = false;
+const zip = new JSZip();
 
 // buttons
 const startbtn = document.getElementById("start");
@@ -284,6 +285,7 @@ function handle_file_selection(event) {
         reader.readAsText(file);
     }
     else {
+        
         //file handler for epub goes here
     }
 }
@@ -329,9 +331,11 @@ function save_chapter() {
 function extract_and_update_data(text) {
     text = text.split("\n");
     if (text.length != 5) {
-        alert("ERROR invalid save file size: " + text.length, 'error')
+        alert("ERROR: invalid save file size: " + text.length, 'error')
         return;
     }
+    if(book == null){alert("ERROR: upload book first")}
+
     curr_chap = Number(text[0].match(/\w+$/));
     console.log("Chapter num:" + Number(text[0].match(/\w+$/)));
 
