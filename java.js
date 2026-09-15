@@ -103,7 +103,7 @@ function initializeText(text) {
     textInit = true;
     text_elm.innerHTML = "";
     let words = text.replace(/\s+/g, " ").trim();//cuts all whitespace down into 1 space
-    console.log(words);
+    // console.log(words);
     chap_num_elm.textContent = "Chapter " + curr_chap;
     if (isTXT)//.txt file chapter heading removal
     {
@@ -112,7 +112,6 @@ function initializeText(text) {
         if (matchResult)// if there was a * * *
         {
             chap_title = matchResult[0];
-            text.replace(/^.*?\*\s\*\s\*/, "");
             chap_title = chap_title.replace(/\s*\*\s\*\s\*$/, "").replace(/(^.?-)/, "");
         }
         chap_name_elm.textContent = chap_title;
@@ -261,14 +260,21 @@ function split_book_into_chapters() {//currently a txt only method since idk how
     start();
 }
 function getTextFromEpubChapter(chap){
-    console.log(folder_name+"/"+book[chap]);
     zip.file(folder_name+"/"+book[chap]).async("string").then(function(data)
     {   
         const parser = new DOMParser();
         
         rawText = parser.parseFromString(data, "application/xhtml+xml").body.textContent;;
-        console.log(rawText);
-        initializeText(rawText);
+        rawText = rawText.replace(/[^]*(?=Chapter)/, "");
+        let matchResult = rawText.match(/(?=Chapter)([^\n]*)/);
+        console.log(matchResult);
+        let chap_title = "Untitled Chapter";
+        if(matchResult){
+            //  chap_title = matchResult[0].match();
+             rawText = rawText.replace(/(?=Chapter)([^\n]*)/, "");
+            chap_name_elm.textContent = matchResult[0];//quick chapter title implementation
+        }
+        textInit = false;
         start();
     });
 }
@@ -279,7 +285,7 @@ function extract_epub_data(file){
         zip.file("META-INF/container.xml").async("string").then(function (data) {
             folder_name = data.match(/(?<=full-path=")()\w+/)[0];
             opf_file_name = data.match(/(?<=full-path=")[\w/.]+/)[0];
-            console.log("chapter_folder is " + folder_name);
+            // console.log("chapter_folder is " + folder_name);
             zip.file(opf_file_name).async("string").then(function(data)
             {  
                 toc = data.match(/(?<=href=")[^"]+(?="[^>]*properties="nav")/);
@@ -288,11 +294,11 @@ function extract_epub_data(file){
                     return;
                 }
                 toc = toc[0];
-                console.log(toc);
+                // console.log(toc);
                 zip.file(folder_name+"/"+toc).async("string").then(function(data)
                 {
                     book = data.match(/(?<=<li><a href=")[^"]+/g);
-                    console.log(book);
+                    // console.log(book);
                     getTextFromEpubChapter(curr_chap);
                 }
                 );
@@ -344,24 +350,24 @@ function receive_file() {
 function next_chap() {
     if(isTXT){
         rawText = book[++curr_chap];
+        textInit = false;
+        start();
     }
     else{
         getTextFromEpubChapter(++curr_chap);
     }
-    textInit = false;
-    start();
     console.log("next Chapter loaded");
 }
 function prev_chap() {
     if (curr_chap == 0) { return; }
     if(isTXT){
         rawText = book[--curr_chap];
-    }
+        textInit = false;
+        start();
+    }else
     {
         getTextFromEpubChapter(--curr_chap);
     }
-    textInit = false;
-    start();
     console.log("next Chapter loaded");
 }
 
@@ -410,16 +416,19 @@ function extract_and_update_data(text) {
     console.log("prev input: " + value);
 
     console.log("load chapter success");
-    rawText = book[curr_chap];
-    textInit = false;
-    cur_char_index = 0;
-    character_count = 0;
-    word_count = 0;
-    initializeText(rawText);
-    update_display(value);
-    update_stats();
-    update_progress();
-
+    if(isTXT){
+        rawText = book[curr_chap];
+        textInit = false;
+        cur_char_index = 0;
+        character_count = 0;
+        word_count = 0;
+        initializeText(rawText);
+        update_display(value);
+        update_stats();
+        update_progress();
+    }else{
+        getTextFromEpubChapter(curr_chap);
+    }
 }
 
 function load_chapter_helper(event) {
