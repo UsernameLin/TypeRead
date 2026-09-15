@@ -17,7 +17,7 @@ let time_on = false;
 let cur_char_index = 0;
 let rawText = "The quick brown fox jumps over the lazy dog.";
 let textInit = false;
-let curr_chap = 1;
+let curr_chap = 0;
 let book = null;//this will be the book as a array of chapters
 let isTXT = false;
 const zip = new JSZip();
@@ -102,7 +102,8 @@ function stop_timer() {
 function initializeText(text) {
     textInit = true;
     text_elm.innerHTML = "";
-    let words = text.replace(/(\r\n+|\n+|\r+|' '+)/gm, " ").trim();//cuts all whitespace down into 1 space
+    let words = text.replace(/\s+/g, " ").trim();//cuts all whitespace down into 1 space
+    console.log(words);
     chap_num_elm.textContent = "Chapter " + curr_chap;
     if (isTXT)//.txt file chapter heading removal
     {
@@ -117,8 +118,7 @@ function initializeText(text) {
         chap_name_elm.textContent = chap_title;
         words = words.replace(/^.*?\*\s\*\s\*\s/, "");
     }
-
-
+    
     words = words.split(" ");
 
     translate_raw_text(words);
@@ -253,10 +253,24 @@ function start() {
 
 function split_book_into_chapters() {//currently a txt only method since idk how to mess with epub files so far
     book = book.split(/^Chapter \d+.*$/mi);
+    book = book.slice(1);
     console.log("book split into chapters success");
+    console.log(book);
     rawText = book[curr_chap];
     console.log("text set to ch 1 of book");
     start();
+}
+function getTextFromEpubChapter(chap){
+    console.log(folder_name+"/"+book[chap]);
+    zip.file(folder_name+"/"+book[chap]).async("string").then(function(data)
+    {   
+        const parser = new DOMParser();
+        
+        rawText = parser.parseFromString(data, "application/xhtml+xml").body.textContent;;
+        console.log(rawText);
+        initializeText(rawText);
+        start();
+    });
 }
 function extract_epub_data(file){
     zip.loadAsync(file).then(function(z) 
@@ -279,6 +293,7 @@ function extract_epub_data(file){
                 {
                     book = data.match(/(?<=<li><a href=")[^"]+/g);
                     console.log(book);
+                    getTextFromEpubChapter(curr_chap);
                 }
                 );
             });
@@ -288,6 +303,7 @@ function extract_epub_data(file){
 }
 
 function handle_file_selection(event) {
+    isTXT =false;
     console.log("file uploaded");
     const file = event.target.files[0];
     if (!file) {
@@ -326,14 +342,24 @@ function receive_file() {
     file_elm.addEventListener('change', handle_file_selection);
 }
 function next_chap() {
-    rawText = book[++curr_chap];
+    if(isTXT){
+        rawText = book[++curr_chap];
+    }
+    else{
+        getTextFromEpubChapter(++curr_chap);
+    }
     textInit = false;
     start();
     console.log("next Chapter loaded");
 }
 function prev_chap() {
     if (curr_chap == 0) { return; }
-    rawText = book[--curr_chap];
+    if(isTXT){
+        rawText = book[--curr_chap];
+    }
+    {
+        getTextFromEpubChapter(--curr_chap);
+    }
     textInit = false;
     start();
     console.log("next Chapter loaded");
