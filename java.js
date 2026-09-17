@@ -126,6 +126,7 @@ function initializeText(text) {
 }
 
 function translate_raw_text(rawText) {
+    total_char_count = 0;
     total_word_count = rawText.length;
     const frag = document.createDocumentFragment();
     for (let i = 0; i < total_word_count; ++i) {
@@ -212,6 +213,10 @@ function update_display(input_value) {
 
 function update_progress() {
     const progress = (character_count / (total_char_count)) * 100;
+    console.log(character_count);
+    console.log(total_char_count);
+    console.log(progress);
+
     progress_elm.style.width = Math.min(progress, 100) + '%';
 }
 
