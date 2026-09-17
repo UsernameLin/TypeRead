@@ -49,7 +49,7 @@ const chap_num_elm = document.getElementById("chap-num");
 const chap_name_elm = document.getElementById("chap-name");
 
 function update_stats() {
-    wpm = Math.round((character_count / 5) / (time_total / 60));
+    wpm = Math.round((character_count / 5) / (time_sec / 60));
 
     if (peakwpm < wpm && wpm != Infinity) {
         peakwpm = wpm;
@@ -60,7 +60,6 @@ function update_stats() {
     mistake_elm.querySelector("span").textContent = mistakes;
     word_elm.querySelector("span").textContent = word_count;
     char_elm.querySelector("span").textContent = character_count;
-
 }
 
 //start and resume tracking time
@@ -155,6 +154,14 @@ function translate_raw_text(rawText) {
     }
     text_elm.appendChild(frag);
 }
+function auto_scroll(){
+    const selector = text_elm.querySelector(".letter.current");
+    if(selector == null){return;}
+    text_elm.scrollTo({
+        top: selector.offsetTop - text_elm.offsetTop * 2,
+        behavior: "smooth" 
+    });
+}
 function update_display(input_value) {
     const text = text_elm.querySelectorAll("span");
     const cur_index = input_value.length;
@@ -200,6 +207,7 @@ function update_display(input_value) {
         ++cur_char_index;
         if(cur_char_index == cur_index){break;}   
     }
+    auto_scroll();
 }
 
 function update_progress() {
@@ -351,6 +359,9 @@ function receive_file() {
     file_elm.addEventListener('change', handle_file_selection);
 }
 function next_chap() {
+    if(book == null){console.log("No book loaded exiting")
+        return;
+    }
     if(isTXT){
         rawText = book[++curr_chap];
         textInit = false;
@@ -362,7 +373,7 @@ function next_chap() {
     console.log("next Chapter loaded");
 }
 function prev_chap() {
-    if (curr_chap == 0) { return; }
+    if(curr_chap == 0) { return;}
     if(isTXT){
         rawText = book[--curr_chap];
         textInit = false;
