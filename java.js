@@ -128,6 +128,7 @@ function initializeText(text) {
 
 function translate_raw_text(rawText) {
     total_word_count = rawText.length;
+    const frag = document.createDocumentFragment();
     for (let i = 0; i < total_word_count; ++i) {
         const word_div = document.createElement("div");
         word_div.className = "word";
@@ -140,7 +141,7 @@ function translate_raw_text(rawText) {
             letter_span.textContent = rawText[i][j];
             word_div.appendChild(letter_span);
         }
-        text_elm.appendChild(word_div);
+        frag.appendChild(word_div);
 
         if (i < total_word_count - 1) {
             let space_span = document.createElement("span");
@@ -149,9 +150,10 @@ function translate_raw_text(rawText) {
 
             space_span.textContent = " ";
             total_char_count += 1;
-            text_elm.appendChild(space_span);
+            frag.appendChild(space_span);
         }
     }
+    text_elm.appendChild(frag);
 }
 function update_display(input_value) {
     const text = text_elm.querySelectorAll("span");
