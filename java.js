@@ -213,10 +213,6 @@ function update_display(input_value) {
 
 function update_progress() {
     const progress = (character_count / (total_char_count)) * 100;
-    console.log(character_count);
-    console.log(total_char_count);
-    console.log(progress);
-
     progress_elm.style.width = Math.min(progress, 100) + '%';
 }
 
@@ -367,6 +363,8 @@ function next_chap() {
     if(book == null){console.log("No book loaded exiting")
         return;
     }
+    input.value = "";
+        cur_char_index = 0;
     if(isTXT){
         rawText = book[++curr_chap];
         textInit = false;
@@ -379,6 +377,8 @@ function next_chap() {
 }
 function prev_chap() {
     if(curr_chap == 0) { return;}
+    input.value = "";
+        cur_char_index = 0;
     if(isTXT){
         rawText = book[--curr_chap];
         textInit = false;
