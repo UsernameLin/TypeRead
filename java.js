@@ -119,7 +119,7 @@ function initializeText(text) {
     }
     
     words = words.split(" ");
-
+    // text_elm.innerHTML = words;
     translate_raw_text(words);
 
     const firstLetter = text_elm.querySelector(".letter");
@@ -288,7 +288,8 @@ function extract_epub_data(file){
             // console.log("chapter_folder is " + folder_name);
             zip.file(opf_file_name).async("string").then(function(data)
             {  
-                toc = data.match(/(?<=href=")[^"]+(?="[^>]*properties="nav")/);
+                toc = data.match(/(?="[^>]*properties="nav")[^\n]*/);
+                toc = toc[0].match(/(?<=href=")[^"]+/);
                 if(toc == null){
                     alert("could not find table of contents, check epub file version");
                     return;
